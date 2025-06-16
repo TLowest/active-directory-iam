@@ -94,3 +94,32 @@ To support this, a DHCP Scope was configured to define the IP address range that
     - Account Lockout Policies
     - Disable USB storage
    
+---
+
+### IAM Security Best Practice Enhancements 
+
+Implementing IAM security best practice enhancement scripts is essential to maintaining a secure, compliant, and scalable Active Directory environment.
+These scripts automate critical tasks such as enforcing least privilege, auditing logon events, and backing up GPO configurations - each of which contributes to reducing risk, streamlining administrative workflows, and improving incident response capabilities. 
+
+**Least Privilege Enforcement Script**
+
+```Powershell
+.\least_privilege_enforcer.ps1
+```
+
+**Audit Policy Baseline Configuration**
+
+```Powershell
+.\enable-LogonAuditing.ps1
+```
+
+**GPO Backup Script**
+
+```Powershell
+.\backup_GPOs.ps1
+```
+
+*Optional*: SIEM Forwarding Integration
+
+> Install NXLog or Windows Event Forwarding (WEF) on DC to send logs to a SIEM like ELK or Splunk.
+
