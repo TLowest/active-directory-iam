@@ -4,7 +4,7 @@ This home lab project demonstrates how to set up a secure Active Directory (AD)-
 
 > This Project was inspired by [Abdullahi Ali](https://medium.com/@aali23/how-to-build-an-active-directory-iam-home-lab-using-virtualbox-60b79b94b300) from [Medium.com](https://medium.com/)
 
-While the original article provides a clear step-by-step guide, this version of the project showcases real-world troubleshoooting, enhancements, and security improvements encountered during implementaiton. It highlights specific issues that arose during the setup process and couments how they were resolved to strengthen understanding of Active Directory environements and IAM best practices. 
+While the original article provides a clear step-by-step guide, this version of the project showcases real-world troubleshoooting, enhancements, and security improvements encountered during implementaiton. It highlights specific issues that arose during the setup process and documents how they were resolved to strengthen understanding of Active Directory environements and IAM best practices. 
 
 ---
 
@@ -20,7 +20,7 @@ While the original article provides a clear step-by-step guide, this version of 
 
 ### 🏗️ Instructions 
 
-1. Environment Setup (Host)
+**1. Environment Setup (Host)**
 - Install VirtualBox and download ISOs/create VMs for:
   - Windows Server 2019 Standard Evaluation (Desktop Experience) : Domain Controller (`DC01`)
     - *Standard Edition is fully sufficent for running AD DS with a full GUI interface.*
@@ -29,7 +29,7 @@ While the original article provides a clear step-by-step guide, this version of 
 > Note: Setting up domain environement (e.g., Windows Server 2019 as the Domain Controller and a Windows 10 client) requires manually configuring IPv4 settings for reliable internal communication and Active Directory functionality. This avoids reliance on external DNS and ensures accurate domain resolution.
 
 
-2. Active Directory Domain Controller Setup
+**2. Active Directory Domain Controller Setup**
 
 - On `DC01`:
   1. Set a static IP address
@@ -43,7 +43,7 @@ While the original article provides a clear step-by-step guide, this version of 
 
   5. Reboot after promotion
 
-3. Configure DHCP
+**3. Configure DHCP**
 
 The article suggests configuring DHCP on the domain controller. The reasoning includes:
   - Automatic IP assignment: Simplifies IP management
@@ -53,7 +53,7 @@ The article suggests configuring DHCP on the domain controller. The reasoning in
 
 To support this, a DHCP Scope was configured to define the IP address range that the DHCP server is allowed to hand out, simplifying the domain join and management process. 
 
-4. Create Organizational Units and User Accounts
+**4. Create Organizational Units and User Accounts**
 
 - Use **ADUC** to create:
   - OUs: `Users`, `Admins`, `Workstations`
@@ -61,7 +61,7 @@ To support this, a DHCP Scope was configured to define the IP address range that
 
 > You can also use a Powershell script to automate bulk user creation. For example, the script from [Josh Madakor's GitHub](https://github.com/joshmadakor1/AD_PS) creates over 1000 unique test users for realiztic IAM simulations.
 
-5. Join Client to Domain
+**5. Join Client to Domain**
 
 - On `Client01`:
   1. Set static IP in same subnet as `DC01`
@@ -71,8 +71,10 @@ To support this, a DHCP Scope was configured to define the IP address range that
 
 > **Networking Issue Resolution:** if you encounter an issue where the Windows 10 VM still uses the NAT adapter's DNS server instead of the internal DNS, adjust interface metrics using PowerShell:
 > ```Powershell
-> Set-NetIPInterface -InterfaceAlias "<InterfaceAlias-Internal-Adapter>" -InterfaceMetric 10 # Set a lower metric for the internal adapter
-> Set-NetIPInterface -InterfaceAlias "<InterfaceAlias-NAT-Adapter>" -InterfaceMetric 50 # Set a higher metric for the NAT adapter
+> # Set a lower metric for the internal adapter
+> Set-NetIPInterface -InterfaceAlias "<InterfaceAlias-Internal-Adapter>" -InterfaceMetric 10
+> # Set a higher metric for the NAT adapter
+> Set-NetIPInterface -InterfaceAlias "<InterfaceAlias-NAT-Adapter>" -InterfaceMetric 50
 > ```
 > Feel free to check the interface names using `Get-NetIPInterface`.
 >
@@ -82,7 +84,7 @@ To support this, a DHCP Scope was configured to define the IP address range that
 > nslookup mydomain.com
 > ```
 
-6. Configure Group Policy
+**6. Configure Group Policy**
 
 - Using **GPMC** on `DC01`:
   - Create new Group Policy Object (GPO)
